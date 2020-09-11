@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ввод IP-адреса</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<div class="container pt-5" id="app">
+    <div class="row mb-3">
+        <div class="col">
+            <h1>Cars application</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="search">Find your car</label>
+                <!-- Передача текста в Vue и последующий его вывод -->
+                <input type="text" class="form-control" id="search" v-model="search" placeholder="Name, model ...">
+            </div>
+
+            <hr>
+            <!-- Циклическое отображение списка с данными, передача функции, отображение активного -->
+            <ul class="list-group">
+                <li v-for="(car, index) of filterCars" @click="selectCar(index)"
+                    class="list-group-item list-group-item-action pointer"
+                    :class="{'active': selectCarIndex === index}">
+                    {{car.name}} - {{car.model}}
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-5">
+                    <h2>{{car.name}} {{car.model}}</h2>
+                    <!-- При прогрузке страницы Vue не понимает, что ему надо заменить параметр src. Ставить перед подобным : -->
+                    <img :src="car.image" :alt="car.name" class="rounded detailed-car-image">
+
+                </div>
+                <div class="col-md-7 pt-1">
+                    <h5>Car details</h5>
+                    <ul>
+                        <li>Name - <strong>{{car.name}}</strong></li>
+                        <li>Model - <strong>{{car.model}}</strong></li>
+                        <li>Year - <strong>{{car.year}}</strong></li>
+                        <li>Owner - <strong>{{car.owner}}</strong></li>
+                    </ul>
+                    <!-- v-if - отображение. Работает с true/false -->
+                    <div class="phone-block"><p v-if="phoneVisibility">Number: {{car.phone}}</p></div>
+                    <!-- v-text - текст внутри с функции, что что-то возвращает.-->
+                    <button @click="phoneVisibility= !phoneVisibility" class="btn btn-outline-success mr-3"
+                            v-text="phoneBtnText"></button>
+                    <button class="btn btn-primary" @click="modalVisibility=true">Buy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade show" tabindex="-1" role="dialog" v-if="modalVisibility">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Do you want to buy this car?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="modalVisibility = false">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="modalVisibility = false">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade show" v-if="modalVisibility"></div>
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

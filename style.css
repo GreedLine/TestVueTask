@@ -1,0 +1,12 @@
+.detailed-car-image{
+    height: 300px;
+}
+.pointer{
+    cursor: pointer;
+}
+.phone-block{
+    height: 36px;
+}
+.modal{
+    display: block;
+}
